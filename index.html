@@ -16,50 +16,57 @@
   </header>
 
   <main>
+    <div class="content">
 
-    <!-- Live status: filled in by script -->
-    <section class="card status" id="status" data-state="loading">
-      <span class="status__dot"></span>
-      <span class="status__text" id="status-text">Checking server…</span>
-      <ul class="status__players" id="status-players"></ul>
-    </section>
+      <!-- Live status: filled in by script -->
+      <section class="card status" id="status" data-state="loading">
+        <span class="status__dot"></span>
+        <span class="status__text" id="status-text">Checking server…</span>
+        <ul class="status__players" id="status-players"></ul>
+      </section>
 
-    <!-- IP + copy -->
-    <section class="card ip">
-      <h2 class="card__title">Server address</h2>
-      <div class="ip__row">
-        <code class="ip__address" id="ip">pgsql-rope.tun.ply.gg</code>
-        <button class="btn ip__copy" id="copy-btn" type="button">Copy</button>
-      </div>
-    </section>
+      <!-- IP + copy -->
+      <section class="card ip">
+        <h2 class="card__title">Server address</h2>
+        <div class="ip__row">
+          <code class="ip__address" id="ip">pgsql-rope.tun.ply.gg</code>
+          <button class="btn ip__copy" id="copy-btn" type="button">Copy</button>
+        </div>
+      </section>
 
-    <!-- Whitelist warning -->
-    <section class="card notice">
-      <p><strong>Whitelisted server.</strong> Message Wolfysteyr on Discord before trying to join.</p>
-    </section>
+      <!-- Whitelist warning -->
+      <section class="card notice">
+        <p><strong>Whitelisted server.</strong> Message Wolfysteyr on Discord before trying to join.</p>
+      </section>
 
-    <!-- Steps -->
-    <section class="card steps">
-      <h2 class="card__title">How to join</h2>
-      <ol class="steps__list">
-        <li class="steps__item">
-          <h3>Download the modpack</h3>
-          <a class="btn" href="https://drive.google.com/drive/folders/1zQbkFarHPzr_t14Nm5aWuvwrk8HiG7HO?usp=sharing" target="_blank" rel="noopener">Download</a>
-        </li>
-        <li class="steps__item">
-          <h3>Import it into your launcher</h3>
-          <p>Prism Launcher recommended: Add Instance → Import.</p>
-        </li>
-        <li class="steps__item">
-          <h3>Get whitelisted</h3>
-          <p>Send me your Minecraft username.</p>
-        </li>
-        <li class="steps__item">
-          <h3>Join</h3>
-          <p>Multiplayer → Add Server → paste the address above.</p>
-        </li>
-      </ol>
-    </section>
+      <!-- Steps -->
+      <section class="card steps">
+        <h2 class="card__title">How to join</h2>
+        <ol class="steps__list">
+          <li class="steps__item">
+            <h3>Download the modpack</h3>
+            <a class="btn" href="https://drive.google.com/drive/folders/1zQbkFarHPzr_t14Nm5aWuvwrk8HiG7HO?usp=sharing" target="_blank" rel="noopener">Download</a>
+          </li>
+          <li class="steps__item">
+            <h3>Import it into your launcher</h3>
+            <p>Prism Launcher recommended: Add Instance → Import.</p>
+          </li>
+          <li class="steps__item">
+            <h3>Get whitelisted</h3>
+            <p>Send me your Minecraft username.</p>
+          </li>
+          <li class="steps__item">
+            <h3>Join</h3>
+            <p>Multiplayer → Add Server → paste the address above.</p>
+          </li>
+        </ol>
+      </section>
+    </div>
+    <div class="map-wrap">
+      <h1>Live Map Reaction:</h1>
+        <iframe class="map" src="https://amdysseus.tailbfdce0.ts.net" loading="lazy" title="Live map"></iframe>
+    </div>
+    
 
   </main>
 
