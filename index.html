@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Join the Server</title>
+  <link rel="icon" href="server-icon.png" alt="Picture by numeral">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <header class="hero">
+    <img class="hero__icon" src="server-icon.png" alt="Picture by numeral" title="picture by numeral" width="64" height="64">
+    <h1 class="hero__title">Epic Minecraft Server!!!!</h1>
+    <p class="hero__subtitle">Create-focused modpack · 1.21.1 NeoForge</p>
+  </header>
+
+  <main>
+
+    <!-- Live status: filled in by script -->
+    <section class="card status" id="status" data-state="loading">
+      <span class="status__dot"></span>
+      <span class="status__text" id="status-text">Checking server…</span>
+      <ul class="status__players" id="status-players"></ul>
+    </section>
+
+    <!-- IP + copy -->
+    <section class="card ip">
+      <h2 class="card__title">Server address</h2>
+      <div class="ip__row">
+        <code class="ip__address" id="ip">pgsql-rope.tun.ply.gg</code>
+        <button class="btn ip__copy" id="copy-btn" type="button">Copy</button>
+      </div>
+    </section>
+
+    <!-- Whitelist warning -->
+    <section class="card notice">
+      <p><strong>Whitelisted server.</strong> Message Wolfysteyr on Discord before trying to join.</p>
+    </section>
+
+    <!-- Steps -->
+    <section class="card steps">
+      <h2 class="card__title">How to join</h2>
+      <ol class="steps__list">
+        <li class="steps__item">
+          <h3>Download the modpack</h3>
+          <a class="btn" href="https://drive.google.com/drive/folders/1zQbkFarHPzr_t14Nm5aWuvwrk8HiG7HO?usp=sharing" target="_blank" rel="noopener">Download</a>
+        </li>
+        <li class="steps__item">
+          <h3>Import it into your launcher</h3>
+          <p>Prism Launcher recommended: Add Instance → Import.</p>
+        </li>
+        <li class="steps__item">
+          <h3>Get whitelisted</h3>
+          <p>Send me your Minecraft username.</p>
+        </li>
+        <li class="steps__item">
+          <h3>Join</h3>
+          <p>Multiplayer → Add Server → paste the address above.</p>
+        </li>
+      </ol>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>Hosted by Wolfysteyr</p>
+  </footer>
+
+  <script>
+    const ADDRESS = document.getElementById('ip').textContent.trim();
+
+    // Copy IP
+    const copyBtn = document.getElementById('copy-btn');
+    copyBtn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(ADDRESS);
+        copyBtn.textContent = 'Copied!';
+      } catch {
+        copyBtn.textContent = 'Copy failed';
+      }
+      setTimeout(() => (copyBtn.textContent = 'Copy'), 2000);
+    });
+
+    // Live status (mcsrvstat.us caches results for a few minutes)
+    async function loadStatus() {
+      const status = document.getElementById('status');
+      const text = document.getElementById('status-text');
+      const list = document.getElementById('status-players');
+
+      try {
+        const res = await fetch(`https://api.mcstatus.io/v2/status/java/${ADDRESS}`);
+        const data = await res.json();
+
+        if (!data.online) {
+          status.dataset.state = 'offline';
+          text.textContent = 'Offline';
+          list.replaceChildren();
+          return;
+        }
+
+        status.dataset.state = 'online';
+        const players = data.players.list ?? [];
+        const real = players.filter(p => p.name_clean !== 'Anonymous Player');
+        const loaders = players.length - real.length;
+
+        text.textContent = `Online · ${real.length}/${data.players.max} players`;
+
+        list.replaceChildren(
+          ...real.map(p => {
+            const li = document.createElement('li');
+            li.className = 'status__player';
+            li.textContent = p.name_clean;
+            return li;
+          }),
+          ...Array.from({ length: loaders }, () => {
+            const li = document.createElement('li');
+            li.className = 'status__player status__player--loader';
+            li.textContent = 'Chunkloader';
+            return li;
+          })
+        );
+      } catch {
+        status.dataset.state = 'error';
+        text.textContent = 'Status unavailable';
+      }
+    }
+
+    loadStatus();
+    setInterval(loadStatus, 60_000);
+  </script>
+</body>
+</html>
