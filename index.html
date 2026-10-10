@@ -107,10 +107,12 @@
         }
 
         status.dataset.state = 'online';
+
         const players = data.players.list ?? [];
         const real = players.filter(p => p.name_clean !== 'Anonymous Player');
+        const loaders = players.length - real.length;
+
         const loaderText = loaders > 0 ? ` (+${loaders})` : '';
-        
         text.textContent = `Online · ${real.length}${loaderText}/${data.players.max} players`;
 
         list.replaceChildren(
